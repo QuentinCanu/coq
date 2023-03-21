@@ -87,7 +87,7 @@ and 'a kind =
 let unsafe_of_obj t def = ref (Array (UArray.unsafe_of_obj t, def))
 let of_array t def = ref (Array (UArray.of_array t, def))
 
-let nb_reroot := ref 0
+let nb_reroot = ref 0
 
 let rec rerootk t k =
   match !t with
