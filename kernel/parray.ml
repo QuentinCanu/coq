@@ -87,10 +87,13 @@ and 'a kind =
 let unsafe_of_obj t def = ref (Array (UArray.unsafe_of_obj t, def))
 let of_array t def = ref (Array (UArray.of_array t, def))
 
+let nb_reroot := ref 0
+
 let rec rerootk t k =
   match !t with
   | Array (a, _) -> k a
   | Updated (i, v, p) ->
+      incr nb_reroot;
       let k' a =
         let v' = UArray.unsafe_get a i in
         UArray.unsafe_set a i v;
@@ -99,7 +102,15 @@ let rec rerootk t k =
         k a in
       rerootk p k'
 
-let reroot t = rerootk t (fun a -> a)
+let reroot t = 
+  nb_reroot := 0;
+  let res = rerootk t (fun a -> a) in
+  print_endline ("An array of size "
+    ^(string_of_int (UArray.length res))
+    ^" has been rerooted ("
+    ^(string_of_int !nb_reroot)
+    ^" iterations)";
+    res
 
 let length_int p =
   UArray.length (reroot p)
