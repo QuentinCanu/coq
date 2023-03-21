@@ -109,7 +109,7 @@ let reroot t =
     ^(string_of_int (UArray.length res))
     ^" has been rerooted ("
     ^(string_of_int !nb_reroot)
-    ^" iterations)";
+    ^" iterations)");
     res
 
 let length_int p =
