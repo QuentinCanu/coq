@@ -105,11 +105,12 @@ let rec rerootk t k =
 let reroot t = 
   nb_reroot := 0;
   let res = rerootk t (fun a -> a) in
+  if !nb_reroot > 0 then
   print_endline ("an array of size "
     ^(string_of_int (UArray.length res))
     ^" has been rerooted ("
     ^(string_of_int !nb_reroot)
-    ^" iterations)");
+    ^" iterations)") else ();
     res
 
 let length_int p =
